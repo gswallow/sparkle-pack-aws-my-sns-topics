@@ -19,6 +19,8 @@ Pack:
 This SparklePack adds a registry entry that uses the AWS SDK to detect SNS
 topics, and returns either an array or a single topic ARN based on a filter.
 
+It also provides a dynamic to create SNS topics, with optional subscribers.
+
 ## Usage
 
 Add the pack to your Gemfile and .sfn:
@@ -37,6 +39,8 @@ Configuration.new do
 end
 ```
 
+### Registries
+
 In a SparkleFormation Template/Component/Dynamic:
 ```ruby
 allowed_values registry!(:my_sns_topics)
@@ -47,3 +51,10 @@ Or, specify the name of the topic for which to retrieve an ARN:
 ```ruby
 notification_topic registry!(:my_sns_topics, 'instance_termination')
 ```
+
+### Dynamics
+
+Create an SNS topic:
+
+```ruby
+dynamic!(:sns_topic, 'events', :subscriber => 'EventHandlerLambda', :protocol => 'lambda')
